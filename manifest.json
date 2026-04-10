@@ -1,0 +1,22 @@
+{
+  "name": "Chibi Air Hockey",
+  "short_name": "Air Hockey",
+  "description": "Cute chibi air hockey game with 8 characters and 22 stages",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#0d0d1a",
+  "theme_color": "#0d0d1a",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
