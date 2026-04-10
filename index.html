@@ -5033,25 +5033,7 @@ function draw(){
   }
 }
 
-// ── Gamepad debug overlay ─────────────────────────────────────────────
-const _gpDbgEl=document.createElement('div');
-Object.assign(_gpDbgEl.style,{position:'fixed',top:'8px',left:'8px',background:'rgba(0,0,0,0.85)',
-  color:'#0f0',fontFamily:'monospace',fontSize:'11px',padding:'6px 10px',borderRadius:'6px',
-  zIndex:'9999',pointerEvents:'none',whiteSpace:'pre',lineHeight:'1.5'});
-document.body.appendChild(_gpDbgEl);
-function updateGPDebug(){
-  const gps=navigator.getGamepads?[...navigator.getGamepads()]:[];
-  const active=gps.filter(g=>g);
-  if(!active.length){_gpDbgEl.textContent='No gamepads detected\n(press a button on a controller)';return;}
-  const [p1,p2]=getPlayerGPs();
-  const p1idx=p1?p1.index:-1, p2idx=p2?p2.index:-1;
-  _gpDbgEl.textContent=active.map(g=>{
-    const axes=Array.from(g.axes).map(v=>v.toFixed(2)).join(' ');
-    const btns=Array.from(g.buttons).map((b,i)=>b.pressed?i:null).filter(i=>i!==null).join(',');
-    const who=g.index===p1idx?'P1':g.index===p2idx?'P2':'??';
-    return `[${g.index}→${who}] ${g.id}\n  axes: ${axes}  btns: ${btns||'-'}`;
-  }).join('\n');
-}
+function updateGPDebug(){}
 
 function loop(){update();draw();updateGPDebug();requestAnimationFrame(loop);}
 loop();
