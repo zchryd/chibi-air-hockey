@@ -486,13 +486,22 @@ C.addEventListener('click',e=>{
 // ── Fullscreen ────────────────────────────────────────────────────────
 const fsBtn=document.getElementById('fsBtn');
 const wrap=document.getElementById('wrap');
+const _isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||
+  (navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
 function toggleFullscreen(){
+  if(_isIOS){
+    // iOS doesn't support Fullscreen API — scroll to hide Safari's URL bar
+    window.scrollTo(0,1);
+    return;
+  }
   if(!document.fullscreenElement&&!document.webkitFullscreenElement){
     (wrap.requestFullscreen||wrap.webkitRequestFullscreen).call(wrap);
   }else{
     (document.exitFullscreen||document.webkitExitFullscreen).call(document);
   }
 }
+// Hide the fullscreen button on iOS since it can't do real fullscreen
+if(_isIOS) fsBtn.style.display='none';
 function updateFsIcon(){
   const inFs=!!(document.fullscreenElement||document.webkitFullscreenElement);
   fsBtn.textContent=inFs?'✕ exit':'⛶';
@@ -512,10 +521,12 @@ function touchToGame(tx, ty){
   const r=C.getBoundingClientRect();
   return { x:(tx-r.left)/r.width*W, y:(ty-r.top)/r.height*H };
 }
-// Active touch targets: touchL = {gx,gy} for left mallet, touchR for right
+// Active touch targets: touchL = {x,y} for left mallet, touchR for right
 let touchL=null, touchR=null;
 // Track which touch ID controls which side
 const touchMap={}; // touchId → 'l' | 'r'
+// Offset so the mallet floats above the finger (in game-canvas units)
+const TOUCH_OFFSET_Y=-50;
 
 C.addEventListener('touchstart', e=>{
   e.preventDefault(); getAC();
@@ -536,8 +547,9 @@ C.addEventListener('touchstart', e=>{
     if(state==='playing'){
       const side=g.x<W/2?'l':'r';
       touchMap[t.identifier]=side;
-      if(side==='l') touchL=g;
-      else           touchR=g;
+      const og={x:g.x, y:g.y+TOUCH_OFFSET_Y};
+      if(side==='l') touchL=og;
+      else           touchR=og;
     }
   }
 }, {passive:false});
@@ -547,8 +559,9 @@ C.addEventListener('touchmove', e=>{
   for(const t of e.changedTouches){
     const g=touchToGame(t.clientX, t.clientY);
     const side=touchMap[t.identifier];
-    if(side==='l') touchL=g;
-    else if(side==='r') touchR=g;
+    const og={x:g.x, y:g.y+TOUCH_OFFSET_Y};
+    if(side==='l') touchL=og;
+    else if(side==='r') touchR=og;
   }
 }, {passive:false});
 
