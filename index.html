@@ -532,7 +532,7 @@ let touchL=null, touchR=null;
 const touchMap={}; // touchId → 'l' | 'r'
 // Offset so the player's finger sits in the letterbox margin, not over the character.
 // P1 finger is left of mallet, P2 finger is right of mallet.
-const TOUCH_OFFSET_X=60;
+const TOUCH_OFFSET_X=100;
 
 // Listen on wrap (not just canvas) so touches in the letterbox margins are captured
 wrap.addEventListener('touchstart', e=>{
