@@ -1,5 +1,9 @@
-const CACHE='chibi-v1';
-const ASSETS=['./index.html','./manifest.json'];
+const CACHE='chibi-v2';
+const ASSETS=[
+  './index.html','./manifest.json','./style.css',
+  './constants.js','./audio.js','./stages.js',
+  './characters.js','./input.js','./ui.js','./game.js'
+];
 
 self.addEventListener('install',e=>{
   e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)));

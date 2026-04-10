@@ -1,0 +1,25 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background:#0d0d1a; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; font-family:'Nunito','Courier New',monospace; overflow:hidden; }
+canvas { display:block; width:min(96vw, calc(96vh * (16/9))); height:auto; touch-action:none; }
+#info { display:none; }
+
+/* ── Fullscreen wrapper ── */
+#wrap { display:flex; flex-direction:column; align-items:center; justify-content:center; touch-action:none; }
+#wrap:fullscreen, #wrap:-webkit-full-screen {
+  width:100vw; height:100vh; background:#0d0d1a;
+}
+#wrap:fullscreen canvas, #wrap:-webkit-full-screen canvas {
+  width:min(98vw, calc(98vh * (16/9))); height:auto; max-width:none; max-height:none;
+}
+
+/* ── Fullscreen button ── */
+#fsBtn {
+  position:fixed; top:10px; right:14px;
+  background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15);
+  color:rgba(255,255,255,0.5); font-size:16px; line-height:1;
+  padding:5px 8px; border-radius:8px; cursor:pointer;
+  font-family:'Nunito',monospace; transition:background .2s,color .2s;
+  z-index:10;
+}
+#fsBtn:hover { background:rgba(255,255,255,0.15); color:#fff; }
+#wrap:fullscreen #fsBtn, #wrap:-webkit-full-screen #fsBtn { position:absolute; }
