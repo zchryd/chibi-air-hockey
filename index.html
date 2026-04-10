@@ -16,7 +16,7 @@
     canvas { display:block; width:min(96vw, calc(96vh * (16/9))); height:auto; touch-action:none; }
     #info { display:none; }
     /* ── Fullscreen wrapper ── */
-    #wrap { display:flex; flex-direction:column; align-items:center; justify-content:center; }
+    #wrap { display:flex; flex-direction:column; align-items:center; justify-content:center; touch-action:none; }
     #wrap:fullscreen, #wrap:-webkit-full-screen {
       width:100vw; height:100vh; background:#0d0d1a;
     }
@@ -530,10 +530,12 @@ function touchToGame(tx, ty){
 let touchL=null, touchR=null;
 // Track which touch ID controls which side
 const touchMap={}; // touchId → 'l' | 'r'
-// Offset so the mallet floats above the finger (in game-canvas units)
-const TOUCH_OFFSET_Y=-50;
+// Offset so the player's finger sits in the letterbox margin, not over the character.
+// P1 finger is left of mallet, P2 finger is right of mallet.
+const TOUCH_OFFSET_X=60;
 
-C.addEventListener('touchstart', e=>{
+// Listen on wrap (not just canvas) so touches in the letterbox margins are captured
+wrap.addEventListener('touchstart', e=>{
   e.preventDefault(); getAC();
   for(const t of e.changedTouches){
     const g=touchToGame(t.clientX, t.clientY);
@@ -552,25 +554,25 @@ C.addEventListener('touchstart', e=>{
     if(state==='playing'){
       const side=g.x<W/2?'l':'r';
       touchMap[t.identifier]=side;
-      const og={x:g.x, y:g.y+TOUCH_OFFSET_Y};
+      const og={x:g.x+(side==='l'?TOUCH_OFFSET_X:-TOUCH_OFFSET_X), y:g.y};
       if(side==='l') touchL=og;
       else           touchR=og;
     }
   }
 }, {passive:false});
 
-C.addEventListener('touchmove', e=>{
+wrap.addEventListener('touchmove', e=>{
   e.preventDefault();
   for(const t of e.changedTouches){
     const g=touchToGame(t.clientX, t.clientY);
     const side=touchMap[t.identifier];
-    const og={x:g.x, y:g.y+TOUCH_OFFSET_Y};
+    const og={x:g.x+(side==='l'?TOUCH_OFFSET_X:-TOUCH_OFFSET_X), y:g.y};
     if(side==='l') touchL=og;
     else if(side==='r') touchR=og;
   }
 }, {passive:false});
 
-C.addEventListener('touchend', e=>{
+wrap.addEventListener('touchend', e=>{
   for(const t of e.changedTouches){
     const side=touchMap[t.identifier];
     if(side==='l') touchL=null;
@@ -578,7 +580,7 @@ C.addEventListener('touchend', e=>{
     delete touchMap[t.identifier];
   }
 });
-C.addEventListener('touchcancel', e=>{
+wrap.addEventListener('touchcancel', e=>{
   for(const t of e.changedTouches){
     const side=touchMap[t.identifier];
     if(side==='l') touchL=null;
