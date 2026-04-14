@@ -403,7 +403,7 @@ function handleModeSelTap(g){
 }
 
 function handleStageSelTap(g){
-  // Left panel: stage list
+  // Left panel: stage list — must match drawStageSelect()
   const listX=24,listW=266,listY=60,listItemH=22;
   const N=STAGES.length;
   const maxVis=Math.floor((H-listY-40)/listItemH);
@@ -411,14 +411,17 @@ function handleStageSelTap(g){
   if(g.x>=listX-4&&g.x<=listX+listW+4&&g.y>=listY&&g.y<=listY+maxVis*listItemH){
     const vi=Math.floor((g.y-listY)/listItemH);
     const idx=vi+scrollOff;
-    if(idx>=0&&idx<N){stageSel=idx;stageSelBtn=0;}
+    if(idx>=0&&idx<N){stageSel=idx;stageSelBtn=0;confirmStage();getAC();}
     return;
   }
-  // Right side buttons — look for "PLAY" area (bottom right)
-  const px=listX+listW+20,pw=W-px-20;
-  if(g.x>=px&&g.x<=px+pw&&g.y>=H-120){
-    confirmStage(); getAC();
-    return;
+  // Right side: Random / In Order buttons — positions must match drawStageSelect()
+  const px=listX+listW+20,pw=W-px-20,py=listY;
+  const prevH=Math.min(180,Math.round((H-listY-40)*0.42));
+  const btnStartY=py+prevH+76,btnH=48,btnGap=10;
+  if(g.x>=px&&g.x<=px+pw){
+    const randY=btnStartY,orderY=btnStartY+btnH+btnGap;
+    if(g.y>=randY&&g.y<=randY+btnH){stageSelBtn=1;confirmStage();getAC();return;}
+    if(g.y>=orderY&&g.y<=orderY+btnH){stageSelBtn=2;confirmStage();getAC();return;}
   }
   // Top-left tap = back
   if(g.y<50&&g.x<100) showModeSelect();
