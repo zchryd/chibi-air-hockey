@@ -20,6 +20,10 @@ const C_CHIBI='#ffd0b0',C_CHIBIDK='#d9956a';
 const C_CBGHR='#dd70cc',C_CBGHRDK='#9e3898';
 const C_CBBYHR='#4488d0',C_CBBYHRDK='#1a4a8a';
 const C_MOLE='#4a3a30',C_MOLEDK='#2a1a12',C_MOLENOSE='#ff7090',C_MOLECLAW='#c4a882';
+const C_RAMEN='#c83c3c',C_RAMENDK='#7a1c1c',C_RAMENBROTH='#e8a040',C_RAMENNOODLE='#f4d878';
+const C_CLAUDE='#d97757',C_CLAUDEDK='#8a3e22',C_CLAUDECREAM='#f6ead8',C_CLAUDECREAMDK='#b89078';
+const C_DONBURI='#3a6a9c',C_DONBURIDK='#1c3a5c',C_RICE='#faf6ee',C_YOLK='#ffba3a';
+const C_BAO='#fff4e2',C_BAODK='#b89878',C_BAOPLEAT='#d8bc98',C_BAOBLUSH='#ffb0b8';
 
 // ── Characters ───────────────────────────────────────────────────────
 const CHARS=[
@@ -31,6 +35,10 @@ const CHARS=[
   {id:'chibigirl',name:'Luna',     col:C_CBGHR,   emoji:'👧', uniqueEmote:'pouty', draw:(m)=>drawChibiGirl(m), perfectAnim:(x,y,r,t)=>drawChibiGirlPerfect(x,y,r,t)},
   {id:'chibiboy', name:'Kai',      col:C_CBBYHR,  emoji:'👦', uniqueEmote:'smug', draw:(m)=>drawChibiBoy(m), perfectAnim:(x,y,r,t)=>drawChibiBoyPerfect(x,y,r,t)},
   {id:'mole',     name:'Star Mole', col:C_MOLENOSE, emoji:'🐀', uniqueEmote:'sniff', draw:(m)=>drawMole(m), perfectAnim:(x,y,r,t)=>drawMolePerfect(x,y,r,t)},
+  {id:'ramen',    name:'Noodle',   col:C_RAMEN,    emoji:'🍜', uniqueEmote:'slurp', draw:(m)=>drawRamen(m), perfectAnim:(x,y,r,t)=>drawRamenPerfect(x,y,r,t)},
+  {id:'claude',   name:'Claude',   col:C_CLAUDE,   emoji:'☁️', uniqueEmote:'thinking', draw:(m)=>drawClaude(m), perfectAnim:(x,y,r,t)=>drawClaudePerfect(x,y,r,t)},
+  {id:'donburi',  name:'Donburi',  col:C_DONBURI,  emoji:'🍚', uniqueEmote:'yum', draw:(m)=>drawDonburi(m), perfectAnim:(x,y,r,t)=>drawDonburiPerfect(x,y,r,t)},
+  {id:'bao',      name:'Bao',      col:C_BAO,      emoji:'🥟', uniqueEmote:'dizzy', draw:(m)=>drawBao(m), perfectAnim:(x,y,r,t)=>drawBaoPerfect(x,y,r,t)},
 ];
 
 // ── Helpers ───────────────────────────────────────────────────────────
