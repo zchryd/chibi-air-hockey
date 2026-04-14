@@ -1,4 +1,4 @@
-const CACHE='chibi-v2';
+const CACHE='chibi-v3';
 const ASSETS=[
   './index.html','./manifest.json','./style.css',
   './constants.js','./audio.js','./stages.js',

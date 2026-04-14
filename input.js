@@ -414,14 +414,17 @@ function handleStageSelTap(g){
     if(idx>=0&&idx<N){stageSel=idx;stageSelBtn=0;confirmStage();getAC();}
     return;
   }
-  // Right side: Random / In Order buttons — positions must match drawStageSelect()
+  // Right side: Random / In Order buttons. The drawn buttons are tiny on
+  // mobile (~20 screen-px tall), so use a generous dead-zone-free hit test:
+  // any tap right of the list, below the preview image, splits the remaining
+  // vertical space in half — top half = Random, bottom half = In Order.
   const px=listX+listW+20,pw=W-px-20,py=listY;
   const prevH=Math.min(180,Math.round((H-listY-40)*0.42));
-  const btnStartY=py+prevH+76,btnH=48,btnGap=10;
-  if(g.x>=px&&g.x<=px+pw){
-    const randY=btnStartY,orderY=btnStartY+btnH+btnGap;
-    if(g.y>=randY&&g.y<=randY+btnH){stageSelBtn=1;confirmStage();getAC();return;}
-    if(g.y>=orderY&&g.y<=orderY+btnH){stageSelBtn=2;confirmStage();getAC();return;}
+  const btnZoneTop=py+prevH+40; // start just under the preview, covers desc/tags too
+  if(g.x>=px-10&&g.x<=px+pw+10&&g.y>=btnZoneTop){
+    const mid=(btnZoneTop+H-20)/2;
+    stageSelBtn=g.y<mid?1:2;
+    confirmStage();getAC();return;
   }
   // Top-left tap = back
   if(g.y<50&&g.x<100) showModeSelect();
